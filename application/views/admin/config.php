@@ -19,7 +19,7 @@
 						</div>
 						<div class="form-group">
 							<label for="policy">Policy</label>
-							<?php echo form_textarea('policy', set_value('policy', $info->policy), ['class' => 'form-control', 'placeholder' => '']); ?>
+							<?php echo form_textarea('policy', set_value('policy', entity_decode($info->policy)), ['class' => 'form-control', 'placeholder' => '']); ?>
 						</div>
 						<?php echo validation_errors(); ?>
 						<input type="submit" class="btn btn-primary btn-sm btn-block">

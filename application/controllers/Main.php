@@ -121,7 +121,7 @@ class Main extends CI_Controller {
 			case 4:
 				$orderBy = 'dept_name';
 				break;
-			case 4:
+			case 5:
 				$orderBy = 'effectivitydate';
 				break;
 			default:

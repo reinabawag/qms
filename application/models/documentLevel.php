@@ -28,6 +28,7 @@ class documentLevel extends CI_Model
 	{
 		$this->load->database();
 
+		$this->db->order_by('recid', 'DESC');
 		$this->db->where('documenttype', $type);
 		$result = $this->db->get('documentlevel');
 

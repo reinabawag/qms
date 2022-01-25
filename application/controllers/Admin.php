@@ -8,6 +8,8 @@ class Admin extends CI_Controller {
         parent::__construct();
         $this->load->library(['user_agent', 'session']);
 
+        $this->load->helper('typography');
+
         if ( ! $this->session->has_userdata('userid')) {
 			redirect('login');
 		}

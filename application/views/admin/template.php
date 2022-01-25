@@ -1,11 +1,9 @@
     <div class="jumbotron">
       <div class="container">
         <div class="row">
-          <div class="col-md-7" align="center">
+          <div class="col-md-7" >
             <img class="img-responsive center-block" src="<?php echo base_url('assets/img/output-onlinepngtools.png') ?>" alt="Amwire Old Factory Picture">
-            <p>
-              <h2>Quality Management System</h2>
-            </p>
+            <p><h2>Quality Management System</h2></p>
           </div>
           <div class="col-md-5">
             <img class="img-responsive center-block" src="<?php echo base_url('assets/img/amwire-pic.png') ?>" alt="Amwire Old Factory Picture">
@@ -29,7 +27,7 @@
         <div class="col-lg-4">
           <img class="img-circle" src="<?php echo base_url('assets/img/policy_logo.png') ?>" alt="Generic placeholder image" width="140" height="140">
           <br><br>
-          <p class="text-justify"><?=$a->policy?></p>
+          <p class="text-justify"><?= html_entity_decode($a->policy) ?></p>
         </div>
       </div>
       
@@ -42,7 +40,7 @@
             </div>
             <div class="modal-body">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered" id="table-ajax">
+                <table class="table table-striped table-bordered" id="table-ajax" width="100%">
                   <thead>
                     <tr>
                       <th>Document Number</th>
@@ -54,8 +52,6 @@
                       <th>Status</th>
                     </tr>        
                   </thead>
-                  <tbody>
-                  </tbody>
                 </table>
               </div>
             </div>
