@@ -455,4 +455,17 @@ class Admin extends CI_Controller {
 			}
 		} 
 	}
+
+	public function date_correct()
+	{
+		$this->load->model('masterlist');
+
+		$dates = $this->masterlist->get_dates();
+
+		foreach ($dates as $key => $value) {
+			$date = date('Y-m-d', strtotime($value->effectivitydate));
+			echo $value->procedureid. " - ". $date.'</br>';
+			$this->masterlist->update_date($value->procedureid, $date);
+		}
+	}
 }

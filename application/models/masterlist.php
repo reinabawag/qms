@@ -18,6 +18,7 @@ class Masterlist extends CI_Model
 	function __construct()
 	{
 		$this->load->database();
+		$this->load->library('session');
 	}
 
 	public function insert($filename)
@@ -27,7 +28,7 @@ class Masterlist extends CI_Model
 		$this->division = $this->input->post('division');
 		$this->department = $this->input->post('department');
 		$this->docnum = $this->input->post('docnum');
-		$this->effectivitydate = $this->input->post('date');
+		$this->effectivitydate = date('Y-m-d', strtotime($this->input->post('date')));
 		$this->status = $this->input->post('status');
 		$this->filename = $filename;
 
@@ -39,7 +40,13 @@ class Masterlist extends CI_Model
 		$this->db->join('documentlevel', 'documentlevel.recid = masterlist.documenttype');
 		$this->db->join('awcci_department', 'awcci_department.deptid = masterlist.department');
 		$this->db->join('awcci_division', 'awcci_division.divid = masterlist.division');
+
+		if ( ! $this->session->has_userdata('userid') && $type != 'IM')
+			$this->db->where('masterlist.effectivitydate <=', date('Y-m-d'));
+
 		return $this->db->get_where('masterlist', ['documentlevel.documenttype' => $type, 'status' => 'active'])->result();
+
+		die($this->db->last_query());
 	}
 
 	public function get_all_document_by_division($id, $type)
@@ -49,6 +56,9 @@ class Masterlist extends CI_Model
 		$this->db->join('documentlevel', 'documentlevel.recid = masterlist.documenttype');
 		$this->db->join('awcci_department', 'awcci_department.deptid = masterlist.department');
 		$this->db->join('awcci_division', 'awcci_division.divid = masterlist.division');
+
+		if ( ! $this->session->has_userdata('userid') || $type != 'IM')
+		$this->db->where('masterlist.effectivitydate <=', date('Y-m-d'));
 
 		return $this->db->get_where('masterlist', ['awcci_division.divid' => $id, 'status' => 'active'])->result();
 
@@ -63,6 +73,10 @@ class Masterlist extends CI_Model
 		$this->db->join('documentlevel', 'documentlevel.recid = masterlist.documenttype');
 		$this->db->join('awcci_department', 'awcci_department.deptid = masterlist.department');
 		$this->db->join('awcci_division', 'awcci_division.divid = masterlist.division');
+
+		if ( ! $this->session->has_userdata('userid'))
+			$this->db->where('masterlist.effectivitydate <=', date('Y-m-d'));
+
 		return $this->db->get_where('masterlist', ['awcci_department.deptid' => $id, 'status' => 'active'])->result();
 
 		die($this->db->last_query());
@@ -105,16 +119,21 @@ class Masterlist extends CI_Model
 		$this->db->order_by($orderBy, $order);
 		$this->db->limit($length, $start);
 
+		// $this->db->where('documentlevel.documenttype <>', 'IM');
+
 		$query = $this->db->select('*')->from('masterlist')
 	        ->group_start()
 	            ->where('status', 'Active')
+				->where('masterlist.effectivitydate <=', date('Y-m-d'))
 	        ->group_end()
 	        ->group_start()
 	            ->or_like(array('docnum'=> $query, 'documenttitle' => $query, 'documentdesc' => $query, 'div_name' => $query, 'dept_name' => $query, 'effectivitydate' => $query))
 	        ->group_end()
-		->get();
+		->get();	
 
 		return $query->result();
+
+		die($this->db->last_query());
 	}
 
 	public function get_documents_ajax_count($query, $start, $length, $orderBy, $order)
@@ -124,9 +143,13 @@ class Masterlist extends CI_Model
 		$this->db->join('awcci_division', 'awcci_division.divid = masterlist.division');
 		$this->db->order_by($orderBy, $order);
 
+		// $this->db->where('documentlevel.documenttype <>', 'IM');
+		$this->db->or_where('documentlevel.documenttype', 'IM');
+
 		$query = $this->db->select('*')->from('masterlist')
 	        ->group_start()
 	            ->where('status', 'Active')
+				->where('masterlist.effectivitydate <=', date('Y-m-d'))
 	        ->group_end()
 	        ->group_start()
 	            ->or_like(array('docnum'=> $query, 'documenttitle' => $query, 'documentdesc' => $query, 'div_name' => $query, 'dept_name' => $query, 'effectivitydate' => $query))
@@ -168,5 +191,17 @@ class Masterlist extends CI_Model
 	public function delete($id)
 	{
 		return $this->db->delete('masterlist', ['procedureid' => $id]);
+	}
+
+	public function get_dates()
+	{	
+		$this->db->select('procedureid, effectivitydate');
+		return $this->db->get('masterlist')->result();
+	}
+
+	public function update_date($procedureid, $date)
+	{
+		$this->db->where('procedureid', $procedureid);
+		$this->db->update('masterlist', ['effectivitydate' => $date]);
 	}
 }

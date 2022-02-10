@@ -38,6 +38,7 @@ class Department extends CI_Model
 
 		$this->db->distinct();
 		$this->db->where('awcci_department.dept_name', $id);
+		$this->db->where('masterlist.status', 'active');
 		$this->db->select('documentlevel.documentdesc, documentlevel.documenttype');
 		$this->db->join('documentlevel', 'documentlevel.recid = masterlist.documenttype');
 		$this->db->join('awcci_department', 'awcci_department.deptid = masterlist.department', 'inner');

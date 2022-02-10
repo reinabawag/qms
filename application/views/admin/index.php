@@ -31,7 +31,7 @@
 				<td><?=$document->documentdesc?></td>
 				<td><?=$document->div_name?></td>
 				<td><?=$document->dept_name?></td>
-				<td><?=date('F. d, Y', strtotime($document->effectivitydate))?></td>
+				<td><?=date('F d, Y', strtotime($document->effectivitydate))?></td>
 				<td><?=$document->status?></td>
 				<td><a href="<?=site_url("admin/document/update/$document->procedureid")?>">Update</a></td>
 			</tr>

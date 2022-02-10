@@ -32,7 +32,7 @@
             echo "<td>".$doc->documentdesc."</td>";
             echo "<td>".$doc->div_name."</td>";
             echo "<td>".$doc->dept_name."</td>";
-            echo "<td>".date('M. d, Y', strtotime($doc->effectivitydate))."</td>";
+            echo "<td>".date('F d, Y', strtotime($doc->effectivitydate))."</td>";
             echo "<td>".$doc->status."</td>";
             echo "</tr>";
           }

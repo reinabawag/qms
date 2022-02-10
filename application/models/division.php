@@ -37,6 +37,7 @@ class Division extends CI_Model
 
 		$this->db->distinct();
 		$this->db->where('awcci_division.divid', $id);
+		$this->db->where('masterlist.status', 'active');
 		$this->db->select('documentlevel.recid, documentlevel.documenttype, documentdesc');
 		$this->db->join('documentlevel', 'documentlevel.recid = masterlist.documenttype', 'inner');
 		$this->db->join('awcci_division', 'awcci_division.divid = masterlist.division', 'inner');

@@ -31,7 +31,8 @@
         });
         
         $('#date').datepicker({
-            todayBtn: true
+            todayBtn: true,
+            format: 'mm/dd/yyyy',
         });
 
         $('#table').DataTable({
