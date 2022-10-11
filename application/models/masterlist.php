@@ -144,7 +144,7 @@ class Masterlist extends CI_Model
 		$this->db->order_by($orderBy, $order);
 
 		// $this->db->where('documentlevel.documenttype <>', 'IM');
-		$this->db->or_where('documentlevel.documenttype', 'IM');
+		// $this->db->or_where('documentlevel.documenttype', 'IM');
 
 		$query = $this->db->select('*')->from('masterlist')
 	        ->group_start()
